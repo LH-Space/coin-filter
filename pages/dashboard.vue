@@ -1,4 +1,6 @@
 <template>
+    <Layout>
+    </Layout>
     <div class="container">
         <h1>Currency Dashboard</h1>
         <div class="overall-status">
@@ -48,7 +50,7 @@ export default {
             .then((response) => {
                 this.timestamp = response.data.status.timestamp;
                 this.totalCurrencies = response.data.status.total_count;
-                this.currencies = response.data.data.slice(0, 7);
+                this.currencies = response.data.data;
                 console.log(response);
             })
             .catch((error) => {
