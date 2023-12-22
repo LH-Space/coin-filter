@@ -7,7 +7,9 @@
             <p>Timestamp: {{ timestamp }}</p>
             <p>Total currencies: {{ totalCurrencies }}</p>
         </div>
-
+        <div class="button-1">
+            <button @click="filterData('price')">Filter by Price</button>
+        </div>
         <div class="currency-list">
             <table>
                 <thead>
@@ -34,14 +36,12 @@
                 </tbody>
             </table>
         </div>
-        <div class="button-1">
-            <button @click="filterData('price')">Filter by Price</button>
-        </div>
+      
         <div class="pagination">
             <button @click="goToPage(1)">First</button>
             <button @click="goToPreviousPage">Previous</button>
-            <span v-for="page in totalPages" :key="page">
-                <button :class="{ active: currentPage === page }" @click="goToPage(page)">{{ page }}</button>
+            <span v-for="page in Math.min(totalPages, 5)" :key="page">
+                <button :class="{ active: currentPage === page }" @click="goToPage(page + currentPage - 1)">{{ page + currentPage - 1 }}</button>
             </span>
             <button @click="goToNextPage">Next</button>
             <button @click="goToPage(totalPages - 1)">Last</button>
@@ -64,7 +64,7 @@ export default {
             asc: true,
             currentPage: 1,
             itemsPerPage: 20, // Adjust as needed
-            totalPages: 5,
+            totalPages: 0,
         };
     },
     mounted() {
@@ -78,6 +78,7 @@ export default {
                 this.timestamp = response.data.status.timestamp;
                 this.totalCurrencies = response.data.status.total_count;
                 this.currencies = response.data.data;
+                this.totalPages= response.data.status.total_count / this.itemsPerPage
                 console.log(response);
             })
             .catch((error) => {
