@@ -7,23 +7,32 @@
             <p>Timestamp: {{ timestamp }}</p>
             <p>Total currencies: {{ totalCurrencies }}</p>
         </div>
-        <div class="currency-list">
-            <div class="currency" v-for="currency in currencies" :key="currency.id">
-                <h2>{{ currency.name }}</h2>
-                <p>
-                    <strong>Symbol:</strong> {{ currency.symbol }}
-                </p>
-                <p>
-                    <strong>Price:</strong> {{ currency.quote.USD.price }} USD
-                </p>
-                <p>
-                    <strong>Market cap:</strong> {{ currency.quote.USD.market_cap }} USD
-                </p>
-                <p>
-                    <strong>24h change:</strong> {{ currency.quote.USD.percent_change_24h }}%
-                </p>
-            </div>
+        <div class="button-1">
+            <button @click="filterData('price')">Filter by Price</button>
         </div>
+        <div class="currency-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Market Cap</th>
+                        <th>24h Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="currency in currencies" :key="currency.id">
+                        <td>{{ currency.name }}</td>
+                        <td>{{ currency.symbol }}</td>
+                        <td>{{ currency.quote.USD.price | currencyFormat }}</td>
+                        <td>{{ currency.quote.USD.market_cap | currencyFormat }}</td>
+                        <td>{{ currency.quote.USD.percent_change_24h | percentFormat }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </template>
   
@@ -38,11 +47,12 @@ export default {
             currencies: [],
             timestamp: "",
             totalCurrencies: 0,
+            asc: true,
         };
     },
     mounted() {
         axios
-            .get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=20&convert=USD', {
+            .get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest?start=1&limit=500&convert=USD', {
                 headers: {
                     'X-CMC_PRO_API_KEY': '85c09f10-3602-4ef2-828b-a8407b9b23e4',
                 },
@@ -56,6 +66,34 @@ export default {
             .catch((error) => {
                 console.log(error);
             });
+    },
+    filters: {
+        currencyFormat(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            }).format(value);
+        },
+        percentFormat(value) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'percent',
+                maximumFractionDigits: 2,
+            }).format(value);
+        },
+    },
+    methods: {
+        filterData(filterBy) {
+            if (filterBy === 'price') {
+                this.asc = !this.asc; // Toggle asc on each click
+                this.currencies.sort((a, b) => {
+                    return this.asc
+                        ? a.quote.USD.price - b.quote.USD.price // Ascending
+                        : b.quote.USD.price - a.quote.USD.price; // Descending
+                });
+            } else {
+                // Handle other filters if needed
+            }
+        },
     },
 };
 </script>

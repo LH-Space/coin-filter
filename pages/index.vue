@@ -3,3 +3,5 @@
         <Layout></Layout>
     </div>
 </template>
+
+<script></script>

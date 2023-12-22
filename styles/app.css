@@ -10,4 +10,53 @@
   }
   
   /* Add more styles as needed */
+  .container {
+    width: 800px;
+    margin: 0 auto;
+  }
+  
+  .currency-list {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .currency-list th,
+  .currency-list td {
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+  
+  .currency-list th {
+    text-align: left;
+  }
+  
+  .currency-list td.price,
+  .currency-list td.market-cap {
+    text-align: right;
+  }
+  
+  .currency-list td.percent-change {
+    color: red;
+  }
+  .button-1 {
+    text-align: center; /* Center the button horizontally */
+  }
+  
+  .button-1 button {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove default border */
+    color: white; /* White text */
+    padding: 15px 32px; /* Adjust padding for desired size */
+    text-align: center; /* Center text within button */
+    text-decoration: none; /* Remove underline for links */
+    display: inline-block; /* Ensure proper layout */
+    font-size: 16px; /* Adjust font size */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Hand cursor on hover */
+  }
+  
+  /* Hover effects */
+  .button-1 button:hover {
+    background-color: #3e8e41; /* Darker green on hover */
+  }
   
