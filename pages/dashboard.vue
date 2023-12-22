@@ -7,7 +7,7 @@
             <p>Timestamp: {{ timestamp }}</p>
             <p>Total currencies: {{ totalCurrencies }}</p>
         </div>
-        
+
         <div class="currency-list">
             <table>
                 <thead>
@@ -24,9 +24,12 @@
                         :key="currency.id">
                         <td>{{ currency.name }}</td>
                         <td>{{ currency.symbol }}</td>
-                        <td>{{ currency.quote.USD.price }}</td>
-                        <td>{{ currency.quote.USD.market_cap }}</td>
-                        <td>{{ currency.quote.USD.percent_change_24h }}</td>
+                        <td style="text-align: end;">{{ currency.quote.USD.price.toLocaleString('en-US',
+                            { minimumFractionDigits: 3, maximumFractionDigits: 3 }) }}</td>
+                        <td style="text-align: end;">{{ currency.quote.USD.market_cap.toLocaleString('en-US',
+                            { minimumFractionDigits: 3, maximumFractionDigits: 3 }) }}</td>
+                        <td style="text-align: end;">{{ currency.quote.USD.percent_change_24h.toLocaleString('en-US',
+                            { minimumFractionDigits: 3, maximumFractionDigits: 3 }) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -41,7 +44,7 @@
                 <button :class="{ active: currentPage === page }" @click="goToPage(page)">{{ page }}</button>
             </span>
             <button @click="goToNextPage">Next</button>
-            <button @click="goToPage(totalPages-1)">Last</button>
+            <button @click="goToPage(totalPages - 1)">Last</button>
             <p>Total pages: {{ totalPages }}</p>
         </div>
     </div>
