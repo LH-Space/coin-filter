@@ -7,9 +7,7 @@
             <p>Timestamp: {{ timestamp }}</p>
             <p>Total currencies: {{ totalCurrencies }}</p>
         </div>
-        <div class="button-1">
-            <button @click="filterData('price')">Filter by Price</button>
-        </div>
+        
         <div class="currency-list">
             <table>
                 <thead>
@@ -22,17 +20,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="currency in currencies" :key="currency.id">
+                    <tr v-for="currency in currencies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)"
+                        :key="currency.id">
                         <td>{{ currency.name }}</td>
                         <td>{{ currency.symbol }}</td>
-                        <td>{{ currency.quote.USD.price | currencyFormat }}</td>
-                        <td>{{ currency.quote.USD.market_cap | currencyFormat }}</td>
-                        <td>{{ currency.quote.USD.percent_change_24h | percentFormat }}</td>
+                        <td>{{ currency.quote.USD.price }}</td>
+                        <td>{{ currency.quote.USD.market_cap }}</td>
+                        <td>{{ currency.quote.USD.percent_change_24h }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
+        <div class="button-1">
+            <button @click="filterData('price')">Filter by Price</button>
+        </div>
+        <div class="pagination">
+            <button @click="goToPage(1)">First</button>
+            <button @click="goToPreviousPage">Previous</button>
+            <span v-for="page in totalPages" :key="page">
+                <button :class="{ active: currentPage === page }" @click="goToPage(page)">{{ page }}</button>
+            </span>
+            <button @click="goToNextPage">Next</button>
+            <button @click="goToPage(totalPages-1)">Last</button>
+            <p>Total pages: {{ totalPages }}</p>
+        </div>
     </div>
 </template>
   
@@ -48,6 +59,9 @@ export default {
             timestamp: "",
             totalCurrencies: 0,
             asc: true,
+            currentPage: 1,
+            itemsPerPage: 20, // Adjust as needed
+            totalPages: 5,
         };
     },
     mounted() {
@@ -93,6 +107,16 @@ export default {
             } else {
                 // Handle other filters if needed
             }
+        },
+        goToPage(page) {
+            this.currentPage = page;
+            this.fetchData(); // Refetch data for the new page
+        },
+        goToPreviousPage() {
+            this.goToPage(this.currentPage - 1);
+        },
+        goToNextPage() {
+            this.goToPage(this.currentPage + 1);
         },
     },
 };
