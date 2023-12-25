@@ -1,15 +1,20 @@
 FROM node:21.4.0-alpine
 
-ENV APP_ROOT /src
+RUN mkdir -p /usr/src/nuxt-app
+WORKDIR /usr/src/nuxt-app
 
-RUN mkdir ${APP_ROOT}
-WORKDIR ${APP_ROOT}
-ADD . ${APP_ROOT}
+# update and install dependency
+RUN apk update && apk upgrade
+RUN apk add git
 
+# copy the app, note .dockerignore
+COPY . /usr/src/nuxt-app/
 RUN npm install
-
-COPY . .
-
 RUN npm run build
 
-ENV HOST 0.0.0.0
+EXPOSE 3000
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
+
+CMD [ "npm", "start" ]
