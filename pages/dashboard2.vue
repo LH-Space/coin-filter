@@ -21,11 +21,12 @@
                 </thead>
                 <tbody>
                     <tr v-for="currency in currencies">
-                        <td>
-                            <img :src="currency.image" alt="Currency logo" style="width: 50%;" />
+                        <td style="display: flex; align-items: center; ">
+                            <img :src="currency.image" alt="Currency logo" style="width: 25%;" />
+                            &nbsp;
+                            <a>{{ currency.name }}</a>
                         </td>
-                        <td>{{ currency.name }}</td>
-                        <td>{{ currency.symbol }}</td>
+                        <td>{{ currency.symbol.toUpperCase() }}</td>
                         <td style="text-align: end;">{{ currency.current_price }}</td>
                         <td style="text-align: end;">{{ currency.market_cap }}</td>
                         <td style="text-align: end;">{{ currency.price_change_24h }}</td>
