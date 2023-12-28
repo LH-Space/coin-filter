@@ -45,13 +45,13 @@
 }
 
 .button-1 button {
-  background-color: #4CAF50;
+  background-color: #dbe7db;
   /* Green background */
   border: none;
   /* Remove default border */
-  color: white;
+  color: black;
   /* White text */
-  padding: 15px 32px;
+  padding: 10px 32px;
   /* Adjust padding for desired size */
   text-align: center;
   /* Center text within button */

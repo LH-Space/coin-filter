@@ -5,9 +5,10 @@
         <h1>Currency Dashboard</h1>
         <div class="overall-status">
         </div>
-        <div class="button-1">
-            <button @click="filterData('price')">Filter by Price</button>
+        <div>
+            <buttonCrypto />
         </div>
+        <FilterCrypto />
         <div class="currency-list">
             <table>
                 <thead>
@@ -40,9 +41,14 @@
   
 <script>
 import axios from "axios";
-
+import buttonCrypto from "~/components/buttonCrypto.vue";
+import FilterCrypto  from "~/components/FilterCrypto.vue";
 export default {
     name: "CurrencyDashboard",
+    components: {
+        buttonCrypto,
+        FilterCrypto
+    },
     data() {
         return {
             currencies: []
@@ -59,7 +65,5 @@ export default {
                 console.log(error);
             });
     },
-
 };
 </script>
-  
